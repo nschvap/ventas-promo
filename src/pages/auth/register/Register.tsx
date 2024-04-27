@@ -16,6 +16,7 @@ import { auth, database } from "../../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import { UserContext } from "../../../contexts/User";
+import Loading from "../../../components/loading/Loading";
 
 function Register() {
   const toast = useToast();
@@ -28,10 +29,12 @@ function Register() {
   });
   const navigate = useNavigate();
   const { authUser } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
 
   if (authUser) return <Navigate to={"/"} />;
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setLoading(true);
     e.preventDefault();
 
     if (userData.nickname.trim() == "")
@@ -88,6 +91,7 @@ function Register() {
 
       return navigate("/");
     } catch (error) {
+      setLoading(false);
       // @ts-ignore
       const errorCode = error.code;
 
@@ -105,6 +109,7 @@ function Register() {
   return (
     <>
       <Container className="h-full flex flex-col gap-y-4 justify-center items-center pt-[57px]">
+        {loading && <Loading loading={loading} />}
         <Box className="px-4 py-2 rounded-lg border-[1px] border-primary-950 max-w-xl w-full">
           <h3 className="font-semibold text-2xl my-2 text-center">
             Registrarse

@@ -7,6 +7,7 @@ import Login from "./pages/auth/login/Login";
 import Register from "./pages/auth/register/Register";
 import NavBar from "./components/navigation/NavBar";
 import AdminPanel from "./pages/admin/AdminPanel";
+import Profile from "./pages/profile/Profile";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
             <Route path="/admin-panel" element={<AdminPanel />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
+            <Route path="/profile" element={<Profile />}></Route>
           </Routes>
         </UserContextProvider>
       </HashRouter>

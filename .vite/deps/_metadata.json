@@ -1,0 +1,91 @@
+{
+  "hash": "c49eebce",
+  "configHash": "9c00c32a",
+  "lockfileHash": "f1f55721",
+  "browserHash": "f43bc577",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "850b4eb8",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "e6dbc056",
+      "needsInterop": true
+    },
+    "@chakra-ui/react": {
+      "src": "../../node_modules/@chakra-ui/react/dist/index.mjs",
+      "file": "@chakra-ui_react.js",
+      "fileHash": "697bf84c",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "5bda0ed3",
+      "needsInterop": false
+    },
+    "firebase/app": {
+      "src": "../../node_modules/firebase/app/dist/esm/index.esm.js",
+      "file": "firebase_app.js",
+      "fileHash": "e287d05d",
+      "needsInterop": false
+    },
+    "firebase/database": {
+      "src": "../../node_modules/firebase/database/dist/esm/index.esm.js",
+      "file": "firebase_database.js",
+      "fileHash": "0f81d76f",
+      "needsInterop": false
+    },
+    "firebase/auth": {
+      "src": "../../node_modules/firebase/auth/dist/esm/index.esm.js",
+      "file": "firebase_auth.js",
+      "fileHash": "93363925",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "c2609055",
+      "needsInterop": true
+    },
+    "moment": {
+      "src": "../../node_modules/moment/dist/moment.js",
+      "file": "moment.js",
+      "fileHash": "eaa5fddf",
+      "needsInterop": false
+    },
+    "moment/min/moment-with-locales": {
+      "src": "../../node_modules/moment/min/moment-with-locales.js",
+      "file": "moment_min_moment-with-locales.js",
+      "fileHash": "13b48579",
+      "needsInterop": true
+    },
+    "uuid": {
+      "src": "../../node_modules/uuid/dist/esm-browser/index.js",
+      "file": "uuid.js",
+      "fileHash": "b309e67b",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-EE4INUKL": {
+      "file": "chunk-EE4INUKL.js"
+    },
+    "chunk-6EEL643C": {
+      "file": "chunk-6EEL643C.js"
+    },
+    "chunk-LXM22VAR": {
+      "file": "chunk-LXM22VAR.js"
+    },
+    "chunk-H66I5LD2": {
+      "file": "chunk-H66I5LD2.js"
+    },
+    "chunk-GFT2G5UO": {
+      "file": "chunk-GFT2G5UO.js"
+    }
+  }
+}

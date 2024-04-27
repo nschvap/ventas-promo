@@ -15,6 +15,7 @@ import { auth } from "../../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { es } from "../../../lib/authErrors";
 import { UserContext } from "../../../contexts/User";
+import Loading from "../../../components/loading/Loading";
 
 function Login() {
   const toast = useToast();
@@ -24,10 +25,12 @@ function Login() {
   });
   const navigate = useNavigate();
   const { authUser } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
 
   if (authUser) return <Navigate to={"/"} />;
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setLoading(true);
     e.preventDefault();
 
     if (userData.email.trim() == "")
@@ -53,6 +56,7 @@ function Login() {
 
       return navigate("/");
     } catch (error) {
+      setLoading(true);
       // @ts-ignore
       const errorCode = error.code;
 
@@ -70,6 +74,7 @@ function Login() {
   return (
     <>
       <Container className="h-full flex flex-col gap-y-4 justify-center items-center pt-[57px]">
+        {loading && <Loading loading={loading} />}
         <Box className="px-4 py-2 rounded-lg border-[1px] border-primary-950 max-w-xl w-full">
           <h3 className="font-semibold text-2xl my-2 text-center">
             Iniciar Sesión
