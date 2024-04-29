@@ -78,7 +78,7 @@ function CreateSellModal({ close, categories = [] }: Props) {
             onSubmit={handleSubmit}
           >
             <FormControl className="mt-2">
-              <FormLabel>Comprador de la venta</FormLabel>
+              <FormLabel>Tipo de venta</FormLabel>
               <Select
                 onChange={(e) =>
                   setSellData({ ...sellData, category: e.target.value })
