@@ -48,8 +48,8 @@ function Category({ category }: Props) {
             <Text className="text-lg xl:text-2xl font-semibold">
               {category.name} |{" "}
               <strong>
-                Vendidas: {sells.reduce((a, b) => a + b.quantity, 0)}/
-                {category.limit}
+                Vendidas: {sells.reduce((a, b) => a + b.quantity, 0)}{category.limit > 0 && <span>/
+                {category.limit}</span>}
               </strong>
             </Text>
           </Box>
