@@ -1,10 +1,11 @@
-import { AbsoluteCenter, Box, Divider, HStack, Text } from "@chakra-ui/react";
+import { AbsoluteCenter, Box, Divider, HStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import CreateCategoryModal from "./pages/components/CreateCategoryModal";
 import { onValue, ref } from "firebase/database";
 import { database } from "../../firebase";
-import { Category } from "../../types";
+import { Category as CategoryType } from "../../types";
 import moment from "moment/min/moment-with-locales";
+import Category from "./pages/components/Category";
 moment.locale("es");
 
 function AdminPanel() {
@@ -12,7 +13,7 @@ function AdminPanel() {
     createCategory: false,
   });
 
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
 
   useEffect(() => {
     onValue(ref(database, "/categorias"), (snapshot) => {
@@ -25,7 +26,7 @@ function AdminPanel() {
     <>
       <section className="h-full w-full pt-[68px] px-8">
         <div>
-          <Box position="relative" padding="10">
+          <Box position="relative" paddingY="10">
             <Divider borderColor={"primary.950"} />
             <AbsoluteCenter
               className="text-sm font-semibold uppercase text-primary-950"
@@ -44,47 +45,19 @@ function AdminPanel() {
               Crear categoría
             </p>
           </button>
-          <HStack className="overflow-x-auto pb-4 mt-2">
-            {categories.sort((a,b) => moment(b.startDate).valueOf() - moment(a.startDate).valueOf()).map((category) => (
-              <Box
-                key={category.id}
-                className={`${
-                  category.type === "comida"
-                    ? "bg-info-200"
-                    : category.type === "numeritos"
-                    ? "bg-primary-200"
-                    : "bg-danger-200"
-                } min-h-32 min-w-72 rounded-md py-2 px-4`}
-              >
-                <Text className="font-semibold text-base uppercase">
-                  {category.name}
-                </Text>
-                <Text className="font-semibold text-sm uppercase">
-                  <strong>Tipo: </strong>
-                  {category.type}
-                </Text>
-                <Text className="font-semibold text-sm uppercase">
-                  <strong>Iniciado:</strong>{" "}
-                  {moment(category.startDate).format("LL")}
-                </Text>
-                <Text className="font-semibold text-sm uppercase">
-                  <strong>Entrega:</strong>{" "}
-                  {moment(category.endDate).format("LL")}
-                </Text>
-                <Text className="font-semibold text-sm uppercase">
-                  <strong>Precio:</strong>{" "}
-                  {category.priceExplained}
-                </Text>
-                <Text className="font-semibold text-sm uppercase">
-                  <strong>Ganancia:</strong>{" "}
-                  ${category.earned.toLocaleString()}
-                </Text>
-                <Text className="font-semibold text-sm uppercase">
-                  <strong>Obligatorias:</strong>{" "}
-                  {category.limit}
-                </Text>
-              </Box>
-            ))}
+          <HStack className="overflow-x-auto pb-4 mt-2 snap-x">
+            {categories
+              .sort(
+                (a, b) =>
+                  moment(b.startDate).valueOf() - moment(a.startDate).valueOf()
+              )
+              .map((category) => (
+                <Category
+                  key={category.id}
+                  category={category}
+                  setCategories={setCategories}
+                />
+              ))}
           </HStack>
         </div>
       </section>

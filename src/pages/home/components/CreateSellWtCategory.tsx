@@ -23,19 +23,23 @@ import { v4 } from "uuid";
 interface Props {
   close: Dispatch<SetStateAction<void>>;
   categories: Category[];
+  sell?: Sell;
 }
 
-function CreateSellModal({ close, categories = [] }: Props) {
+function CreateSellModal({ close, categories = [], sell }: Props) {
   const { authUser } = useContext(UserContext);
   const toast = useToast();
-  const [sellData, setSellData] = useState<Sell>({
-    id: v4(),
-    sellerId: authUser.uid,
-    category: categories.filter((c) => moment().diff(c.endDate, "d") < 0)[0]?.id,
-    buyer: "",
-    quantity: 1,
-    sellDate: moment().toString(),
-  });
+  const [sellData, setSellData] = useState<Sell>(
+    sell || {
+      id: v4(),
+      sellerId: authUser.uid,
+      category: categories.filter((c) => moment().diff(c.endDate, "d") < 0)[0]
+        ?.id,
+      buyer: "",
+      quantity: 1,
+      sellDate: moment().toString(),
+    }
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +47,7 @@ function CreateSellModal({ close, categories = [] }: Props) {
     try {
       await set(ref(database, `ventas/${sellData.id}`), sellData);
       toast({
-        title: `Venta creada correctamente.`,
+        title: `Venta ${sell ? "editada" : "creada"} correctamente.`,
         isClosable: true,
         position: "top",
         duration: 5000,
@@ -53,7 +57,7 @@ function CreateSellModal({ close, categories = [] }: Props) {
     } catch (error) {
       console.error(error);
       toast({
-        title: `Ocurrio un error creando la venta...`,
+        title: `Ocurrio un error ${sell ? "editando" : "creando"} la venta...`,
         isClosable: true,
         position: "top",
         duration: 5000,
@@ -69,7 +73,7 @@ function CreateSellModal({ close, categories = [] }: Props) {
         <ModalHeader className="flex items-center px-4 border-b-[1px] border-primary-950">
           <CloseButton onClick={() => close()} />
           <h2 className="text-lg font-semibold uppercase mx-auto">
-            Crear nueva venta
+            {sell ? "Editar venta" : "Crear nueva venta"}
           </h2>
         </ModalHeader>
         <ModalBody>
@@ -77,20 +81,29 @@ function CreateSellModal({ close, categories = [] }: Props) {
             className="max-w-xs mx-auto w-full mt-2"
             onSubmit={handleSubmit}
           >
-            <FormControl className="mt-2">
-              <FormLabel>Tipo de venta</FormLabel>
-              <Select
-                onChange={(e) =>
-                  setSellData({ ...sellData, category: e.target.value })
-                }
-              >
-                {categories.filter((c) => moment().diff(c.endDate, "d") < 0).map((c) => (
-                  <option key={c.id} value={c.id} label={c.name}></option>
-                ))}
-              </Select>
-            </FormControl>
+            {!sell && (
+              <FormControl className="mt-2">
+                <FormLabel>Tipo de venta</FormLabel>
+                <Select
+                  onChange={(e) =>
+                    setSellData({ ...sellData, category: e.target.value })
+                  }
+                >
+                  {categories
+                    .filter((c) => moment().diff(c.endDate, "d") < 0)
+                    .map((c) => (
+                      <option key={c.id} value={c.id} label={c.name}></option>
+                    ))}
+                </Select>
+              </FormControl>
+            )}
 
-            <FormControl isRequired className="mt-2">
+            <FormControl
+              isRequired={
+                sellData.category != "49e4f927-66f0-49e4-8fdd-f21ae98b9036"
+              }
+              className="mt-2"
+            >
               <FormLabel>Comprador de la venta</FormLabel>
               <Input
                 onChange={(e) =>
@@ -122,7 +135,7 @@ function CreateSellModal({ close, categories = [] }: Props) {
                 Cancelar
               </Button>
               <Button type="submit" colorScheme="primary">
-                Crear
+                {sell ? "Editar" : "Crear"}
               </Button>
             </div>
           </form>

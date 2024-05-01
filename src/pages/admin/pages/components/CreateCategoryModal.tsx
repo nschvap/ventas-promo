@@ -20,21 +20,24 @@ import { Category } from "../../../../types";
 
 interface Props {
   close: Dispatch<SetStateAction<void>>;
+  category?: Category;
 }
 
-function CreateCategoryModal({ close }: Props) {
+function CreateCategoryModal({ close, category }: Props) {
   const toast = useToast();
-  const [categoryData, setCategoryData] = useState<Category>({
-    id: uuidv4(),
-    name: "",
-    type: "comida",
-    earned: 0,
-    price: 0,
-    priceExplained: "",
-    startDate: "",
-    endDate: "",
-    limit: 1,
-  });
+  const [categoryData, setCategoryData] = useState<Category>(
+    category || {
+      id: uuidv4(),
+      name: "",
+      type: "comida",
+      earned: 0,
+      price: 0,
+      priceExplained: "",
+      startDate: "",
+      endDate: "",
+      limit: 1,
+    }
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,8 +45,10 @@ function CreateCategoryModal({ close }: Props) {
     try {
       await set(ref(database, `categorias/${categoryData.id}`), categoryData);
       toast({
-        title: `Categoria creada correctamente.`,
-        description: `Ahora puedes agregar ventas a ${categoryData.name}`,
+        title: `Categoria ${category ? "editada" : "creada"} correctamente.`,
+        description: category
+          ? false
+          : `Ahora puedes agregar ventas a ${categoryData.name}`,
         isClosable: true,
         position: "top",
         duration: 5000,
@@ -53,7 +58,9 @@ function CreateCategoryModal({ close }: Props) {
     } catch (error) {
       console.error(error);
       toast({
-        title: `Ocurrio un error creando la categoria...`,
+        title: `Ocurrio un error ${
+          category ? "editando" : "creando"
+        } la categoria...`,
         description: `Para mas informacion revisa la consola`,
         isClosable: true,
         position: "top",
@@ -70,7 +77,7 @@ function CreateCategoryModal({ close }: Props) {
         <ModalHeader className="flex items-center px-4 border-b-[1px] border-primary-950">
           <CloseButton onClick={() => close()} />
           <h2 className="text-lg font-semibold uppercase mx-auto">
-            Crear Categoría de Venta
+            {category ? "Editar categoria" : "Crear Categoría de Venta"}
           </h2>
         </ModalHeader>
         <ModalBody>
@@ -195,7 +202,7 @@ function CreateCategoryModal({ close }: Props) {
                 Cancelar
               </Button>
               <Button type="submit" colorScheme="primary">
-                Crear
+                {category ? "Editar" : "Crear"}
               </Button>
             </div>
           </form>

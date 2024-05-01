@@ -42,17 +42,19 @@ function Home() {
 
         {categories.filter((c) => moment().diff(c.endDate, "d") < 0).length >
           0 && (
-          <button
-            disabled={loading}
-            hidden={hideBtn}
-            onClick={() => setCreateModal(true)}
-            className="px-4 py-2 mb-4 ml-10 mt-4 max-w-[200px] bg-primary-200 rounded-md hover:bg-primary-300 border-[1px] border-primary-950 duration-200"
-          >
-            <p className=" text-primary-600 flex items-center justify-center">
-              <span className="material-symbols-outlined text-2xl">add</span>
-              Agregar nueva
-            </p>
-          </button>
+          <div className="px-4 md:px-0 border-b-[1px] border-b-primary-950/40">
+            <button
+              disabled={loading}
+              hidden={hideBtn}
+              onClick={() => setCreateModal(true)}
+              className="px-4 py-2 mb-4 md:ml-10 mt-4 w-full md:max-w-[200px] bg-primary-200 rounded-md hover:bg-primary-300 border-[1px] border-primary-950 duration-200"
+            >
+              <p className=" text-primary-600 flex items-center justify-center">
+                <span className="material-symbols-outlined text-2xl">add</span>
+                Agregar nueva
+              </p>
+            </button>
+          </div>
         )}
         {categories.length > 0 ? (
           categories.map((category) => (
